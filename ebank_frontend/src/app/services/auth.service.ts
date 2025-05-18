@@ -1,10 +1,16 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import {jwtDecode} from "jwt-decode";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  isAuthenticated: boolean = false;
+  roles: any;
+  username: any;
+  password: any;
+  accessToken!: string;
 
   constructor(private http : HttpClient) { }
 
@@ -19,5 +25,12 @@ export class AuthService {
 
     // Send the POST request
     return this.http.post('http://localhost:8085/auth/login', params, { headers });
+  }
+  public loadProfile(data: any) {
+    this.isAuthenticated = true;
+    this.accessToken = data["access-token"];
+    let decodeJwt:any=jwtDecode(this.accessToken);
+    this.roles = decodeJwt.scope;
+    this.username = decodeJwt.sub;
   }
 }
