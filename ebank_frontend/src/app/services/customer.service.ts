@@ -23,4 +23,8 @@ export class CustomerService {
     return this.http.post<Customer>(this.baseUrl + "/customers", customer);
   }
 
+  public deleteCustomer(id: number): Observable<void> {
+    return this.http.delete<void>(this.baseUrl + "/customers/" + id);
+  }
+
 }

@@ -24,6 +24,11 @@
             <td>{{ customer.id }}</td>
             <td>{{ customer.name }}</td>
             <td>{{ customer.email }}</td>
+            <td>
+              <button (click)="handleDeleteCustomer(customer)" class="btn btn-danger">
+                delete
+              </button>
+            </td>
         </tr>
         </tbody>
     </table>
