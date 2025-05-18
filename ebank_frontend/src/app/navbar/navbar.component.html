@@ -15,17 +15,22 @@
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
             <li><a class="dropdown-item" routerLink="/admin/customers">Search Customer</a></li>
-            <li><a class="dropdown-item" routerLink="/admin/new-customer">Add Customer</a></li>
+            <li *ngIf = "authService.roles.includes('ADMIN')"><a class="dropdown-item" routerLink="/admin/new-customer">Add Customer</a></li>
           </ul>
         </li>
         <li class="nav-item">
           <a class="nav-link" routerLink="/admin/accounts">Accounts</a>
         </li>
       </ul>
-      <form class="d-flex">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
-      </form>
+      <ul class="navbar">
+      <li class="nav-item" *ngIf = "authService.isAuthenticated==true">
+        <a class="nav-link" >{{this.authService.username}}</a>
+        
+        </li>
+        <li class="nav-item">
+          <button (click)="handleLogout()">logout</button>
+        </li>
+      </ul>
     </div>
   </div>
 </nav>
