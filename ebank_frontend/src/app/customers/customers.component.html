@@ -1,0 +1,30 @@
+<div class="container">
+    <h1>Customers</h1>
+    <div *ngIf="searchForm">
+          <form [formGroup]="searchForm" (ngSubmit)="handleSearchCustomers()">
+            <div class="input-group">
+              <label class="input-group-text">Keyword :</label>
+              <input type="text" formControlName="keyword" class="form-control">
+              <button class="btn btn-info">
+                search
+              </button>
+            </div>
+          </form>
+    </div>
+    <table class="table table-striped" *ngIf="customers">
+        <thead>
+        <tr>
+            <th> ID</th>
+            <th>Name</th>
+            <th>Email</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let customer of customers | async">
+            <td>{{ customer.id }}</td>
+            <td>{{ customer.name }}</td>
+            <td>{{ customer.email }}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
