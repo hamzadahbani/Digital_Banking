@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import {jwtDecode} from "jwt-decode";
 
 @Injectable({
@@ -12,7 +13,7 @@ export class AuthService {
   password: any;
   accessToken!: string;
 
-  constructor(private http : HttpClient) { }
+  constructor(private http : HttpClient,private router : Router) { }
 
   public login(username: string, password: string){
     // Set content type for form URL encoded
@@ -32,11 +33,21 @@ export class AuthService {
     let decodeJwt:any=jwtDecode(this.accessToken);
     this.roles = decodeJwt.scope;
     this.username = decodeJwt.sub;
+    window.localStorage.setItem("access-token",this.accessToken);
   }
   public logout() {
     this.isAuthenticated = false;
     this.accessToken = "";
     this.roles = null;
     this.username = null;
+  }
+
+  public loadjwtTokenfromLocalStorage(){
+    let token = window.localStorage.getItem("access-token") || "";
+    if(token){
+      this.loadProfile({"acess-token" : token});
+      this.router.navigate(['/admin']);
+    }
+
   }
 }

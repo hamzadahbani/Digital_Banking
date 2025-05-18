@@ -6,6 +6,7 @@ import { Customer } from '../model/Customer.model';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { catchError, map } from 'rxjs/operators';
 import { throwError } from 'rxjs';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-customers',
@@ -17,7 +18,13 @@ export class CustomersComponent implements OnInit{
   searchForm!: FormGroup;
   keyword!: string;
   errorMessage!: string;
-  constructor(private customerService : CustomerService, private fb : FormBuilder) {
+  constructor(private customerService : CustomerService, private fb : FormBuilder,public authService : AuthService) {
+    this.customers=this.customerService.getCustomers().pipe(
+      catchError(err => {
+        this.errorMessage=err.message;
+        return throwError(() => err);
+      })
+    );
   
   }
 

@@ -24,7 +24,7 @@
             <td>{{ customer.id }}</td>
             <td>{{ customer.name }}</td>
             <td>{{ customer.email }}</td>
-            <td>
+            <td *ngIf = "authService.roles.includes('ADMIN')">
               <button (click)="handleDeleteCustomer(customer)" class="btn btn-danger">
                 delete
               </button>
