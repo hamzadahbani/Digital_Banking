@@ -56,6 +56,8 @@ public class SecurityConfig {
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())
+                .authorizeHttpRequests(ar -> ar.requestMatchers("/v3/api-docs/**").permitAll())
+                .authorizeHttpRequests(ar -> ar.requestMatchers("/swagger-ui/**").permitAll())
                 .authorizeHttpRequests(ar -> ar.requestMatchers("/auth/login/**").permitAll())
                 .authorizeHttpRequests(ar -> ar.anyRequest().authenticated())
                 //.httpBasic(Customizer.withDefaults())

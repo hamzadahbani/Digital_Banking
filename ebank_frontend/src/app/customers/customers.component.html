@@ -1,35 +1,38 @@
-<div class="container">
-    <h1>Customers</h1>
-    <div *ngIf="searchForm">
-          <form [formGroup]="searchForm" (ngSubmit)="handleSearchCustomers()">
-            <div class="input-group">
-              <label class="input-group-text">Keyword :</label>
-              <input type="text" formControlName="keyword" class="form-control">
-              <button class="btn btn-info">
-                search
-              </button>
-            </div>
-          </form>
-    </div>
-    <table class="table table-striped" *ngIf="customers">
-        <thead>
+<div class="container py-4">
+  <h1 class="mb-4 text-center text-primary">Customers</h1>
+  <div *ngIf="searchForm" class="mb-4">
+    <form [formGroup]="searchForm" (ngSubmit)="handleSearchCustomers()">
+      <div class="input-group">
+        <span class="input-group-text bg-info text-white">Keyword :</span>
+        <input type="text" formControlName="keyword" class="form-control" placeholder="Search customers...">
+        <button class="btn btn-info text-white" type="submit">
+          <i class="bi bi-search"></i> Search
+        </button>
+      </div>
+    </form>
+  </div>
+  <div class="table-responsive">
+    <table class="table table-striped table-hover align-middle" *ngIf="customers">
+      <thead class="table-dark">
         <tr>
-            <th> ID</th>
-            <th>Name</th>
-            <th>Email</th>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th *ngIf="authService.roles.includes('ADMIN')">Actions</th>
         </tr>
-        </thead>
-        <tbody>
+      </thead>
+      <tbody>
         <tr *ngFor="let customer of customers | async">
-            <td>{{ customer.id }}</td>
-            <td>{{ customer.name }}</td>
-            <td>{{ customer.email }}</td>
-            <td *ngIf = "authService.roles.includes('ADMIN')">
-              <button (click)="handleDeleteCustomer(customer)" class="btn btn-danger">
-                delete
-              </button>
-            </td>
+          <td>{{ customer.id }}</td>
+          <td>{{ customer.name }}</td>
+          <td>{{ customer.email }}</td>
+          <td *ngIf="authService.roles.includes('ADMIN')">
+            <button (click)="handleDeleteCustomer(customer)" class="btn btn-danger btn-sm">
+              <i class="bi bi-trash"></i> Delete
+            </button>
+          </td>
         </tr>
-        </tbody>
+      </tbody>
     </table>
+  </div>
 </div>

@@ -10,7 +10,6 @@ export class AuthService {
   isAuthenticated: boolean = false;
   roles: any;
   username: any;
-  password: any;
   accessToken!: string;
 
   constructor(private http : HttpClient,private router : Router) { }
@@ -40,14 +39,34 @@ export class AuthService {
     this.accessToken = "";
     this.roles = null;
     this.username = null;
+    window.localStorage.removeItem("access-token");
   }
 
-  public loadjwtTokenfromLocalStorage(){
-    let token = window.localStorage.getItem("access-token") || "";
-    if(token){
-      this.loadProfile({"acess-token" : token});
-      this.router.navigate(['/admin']);
+  public loadjwtTokenfromLocalStorage() {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      let token = window.localStorage.getItem("access-token") || "";
+      if (token) {
+        try {
+          const decoded: any = jwtDecode(token);
+          const now = Math.floor(Date.now() / 1000);
+          if (decoded.exp && decoded.exp > now) {
+            this.loadProfile({ "access-token": token });
+          } else {
+            // Token expired
+            window.localStorage.removeItem("access-token");
+            this.isAuthenticated = false;
+            this.roles = null;
+            this.username = null;
+            this.router.navigate(['/login']);
+          }
+        } catch (e) {
+          // Invalid token
+          window.localStorage.removeItem("access-token");
+          
+        }
+      }
     }
-
   }
+
+  
 }

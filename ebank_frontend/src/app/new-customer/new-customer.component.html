@@ -1,24 +1,30 @@
-<div class="container">
-  <div class="card col-md-6 offset-3 mt-2">
-    <div class="card-header">New Customer</div>
-    <div class="card-body">
-      <form [formGroup]="newCustomerFormGroup" (ngSubmit)="handleSaveCustomer()">
-        <div class="mb-3">
-          <label class="form-label">Name:</label>
-          <input type="text" formControlName="name" class="form-control">
-          <span class="text-danger" *ngIf="newCustomerFormGroup.get('name')?.invalid && newCustomerFormGroup.get('name')?.touched">
-            Name is Required
-          </span>
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow">
+        <div class="card-header bg-info text-white text-center fs-4">New Customer</div>
+        <div class="card-body">
+          <form [formGroup]="newCustomerFormGroup" (ngSubmit)="handleSaveCustomer()">
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Name:</label>
+              <input type="text" formControlName="name" class="form-control" [ngClass]="{'is-invalid': newCustomerFormGroup.get('name')?.invalid && newCustomerFormGroup.get('name')?.touched}">
+              <div class="invalid-feedback" *ngIf="newCustomerFormGroup.get('name')?.invalid && newCustomerFormGroup.get('name')?.touched">
+                Name is Required
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Email:</label>
+              <input type="email" formControlName="email" class="form-control" [ngClass]="{'is-invalid': newCustomerFormGroup.get('email')?.invalid && newCustomerFormGroup.get('email')?.touched}">
+              <div class="invalid-feedback" *ngIf="newCustomerFormGroup.get('email')?.invalid && newCustomerFormGroup.get('email')?.touched">
+                Email is not valid
+              </div>
+            </div>
+            <div class="d-grid">
+              <button [disabled]="!newCustomerFormGroup.valid" class="btn btn-info text-white fw-bold">Save</button>
+            </div>
+          </form>
         </div>
-        <div class="mb-3">
-          <label class="form-label">Email:</label>
-          <input type="text" formControlName="email" class="form-control">
-          <span class="text-danger" *ngIf="newCustomerFormGroup.get('email')?.invalid && newCustomerFormGroup.get('email')?.touched">
-            Email is not valid
-          </span>
-        </div>
-        <button [disabled]="!newCustomerFormGroup.valid" class="btn btn-info">Save</button>
-      </form>
+      </div>
     </div>
   </div>
 </div>

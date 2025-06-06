@@ -16,6 +16,10 @@ export class LoginComponent implements OnInit{
       username : this.fb.control(null),
       password : this.fb.control(null)
     });
+    // Check if the user is already authenticated
+    if (this.authService.isAuthenticated) {
+      this.router.navigateByUrl("/admin");
+    }
   }
 
   handleLogin() {
